@@ -4,6 +4,7 @@ EXE = test
 ROOTCFLAGS    = $(shell root-config --cflags)
 ROOTLIBS      = $(shell root-config --libs)
 ROOTGLIBS     = $(shell root-config --glibs)
+ROOTLIBS     += -lEG
 
 INCFLAGS = -I$(ROOTSYS)/include
 LDFLAGS = -L$(ROOTSYS)/lib
@@ -20,3 +21,6 @@ $(EXE): $(OBJS)
 
 %.o: %.cxx
 	$(COMPILE)  $< 
+
+clean:
+	rm -f *.o
