@@ -3,11 +3,13 @@
 #include "TF1.h"
 #include "TFile.h"
 #include "TRandom3.h"
+#include "TParticle.h"
 
 #include "StFastSimConstants.h"
 #include "StFastSimUtilities.h"
 
 using namespace FastSimUtilitiesConstants;
+using namespace std;
 
 StFastSimUtilities::StFastSimUtilities(): mh1Vz(), mf1KaonMomResolution(NULL), mf1PionMomResolution(NULL),
    mh1HftRatio(), mh1DcaZ(), mh1DcaXY(), mh1HftRatio1(), mh1DcaZ1(), mh1DcaXY1()
@@ -138,13 +140,29 @@ float StFastSimUtilities::dca1To2(TVector3 const& p1, TVector3 const& pos1, TVec
    return (posDca1 - posDca2).Mag();
 }
 
-TLorentzVector StFastSimUtilities::smearMom(TLorentzVector const& b, TF1 const * const fMomResolution) const
+TLorentzVector StFastSimUtilities::smearMom(TParticle const* particle) const
 {
-   float const pt = b.Perp();
+   TF1 const* fMomResolution = NULL;
+
+   switch(abs(particle->GetPdgCode()))
+   {
+     case 211:
+       fMomResolution = mf1PionMomResolution;
+       break;
+     case 321:
+       fMomResolution = mf1KaonMomResolution;
+       break;
+     default:
+       cout << "There is no specific momentum resolution parametrization available for PDG code = " << particle->GetPdgCode() << "\n";
+       cout << "Using Pions momentum resolution" << endl;
+       fMomResolution = mf1PionMomResolution;
+   }
+
+   float const pt = particle->Pt();
    float const sPt = gRandom->Gaus(pt, pt * fMomResolution->Eval(pt));
 
    TLorentzVector sMom;
-   sMom.SetXYZM(sPt * cos(b.Phi()), sPt * sin(b.Phi()), sPt * sinh(b.PseudoRapidity()), b.M());
+   sMom.SetPtEtaPhiM(sPt,particle->Eta(),particle->Phi(),particle->GetMass());
    return sMom;
 }
 

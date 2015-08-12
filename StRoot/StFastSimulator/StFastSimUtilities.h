@@ -19,6 +19,7 @@
 
 class TF1;
 class TH1D;
+class TParticle;
 
 using namespace FastSimUtilitiesConstants;
 
@@ -28,8 +29,7 @@ public:
    StFastSimUtilities();
    ~StFastSimUtilities();
 
-   // TLorentzVector smearMom(TLorentzVector const& b);
-   TLorentzVector smearMom(TLorentzVector const& b, TF1 const * const fMomResolution) const;
+   TLorentzVector smearMom(TParticle const*) const;
    TVector3 smearPos(TLorentzVector const& mom, TLorentzVector const& rMom, TVector3 const& pos) const;
    TVector3 smearPosData(int iParticleIndex, double vz, int cent, TLorentzVector const& rMom, TVector3 const& pos) const;
    float dca(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex) const;
