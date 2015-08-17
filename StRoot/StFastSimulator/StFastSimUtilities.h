@@ -54,5 +54,7 @@ private:
    TH1D* mh1HftRatio[nParticles][nEtas][nVzs][nCent];
    TH1D* mh1DcaZ[nParticles][nEtas][nVzs][nCent][nPtBins];
    TH1D* mh1DcaXY[nParticles][nEtas][nVzs][nCent][nPtBins];
+
+   ClassDef(StFastSimUtilities,0);
 };
 #endif
