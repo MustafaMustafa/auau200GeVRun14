@@ -47,10 +47,10 @@ private:
    TH1D* mh1Vz[nCent];
 
    // Momentum resolution
-   TF1* mf1KaonMomResolution;
-   TF1* mf1PionMomResolution;
+   TF1* mf1KaonMomResolution = nullptr;
+   TF1* mf1PionMomResolution = nullptr;
 
-   // pT and ccentrality dependent HFT and DCA distributions
+   // pT and centrality dependent HFT and DCA distributions
    TH1D* mh1HftRatio[nCent];
    TH1D* mh1DcaZ[nCent][nPtBins];
    TH1D* mh1DcaXY[nCent][nPtBins];

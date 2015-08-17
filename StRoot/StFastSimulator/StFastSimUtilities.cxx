@@ -11,8 +11,7 @@
 using namespace FastSimUtilitiesConstants;
 using namespace std;
 
-StFastSimUtilities::StFastSimUtilities(): mh1Vz(), mf1KaonMomResolution(NULL), mf1PionMomResolution(NULL),
-   mh1HftRatio(), mh1DcaZ(), mh1DcaXY(), mh1HftRatio1(), mh1DcaZ1(), mh1DcaXY1()
+StFastSimUtilities::StFastSimUtilities()
 {
    gRandom->SetSeed();
 
@@ -140,7 +139,7 @@ float StFastSimUtilities::dca1To2(TVector3 const& p1, TVector3 const& pos1, TVec
    return (posDca1 - posDca2).Mag();
 }
 
-TLorentzVector StFastSimUtilities::smearMom(TParticle const* particle) const
+TLorentzVector StFastSimUtilities::smearMom(TParticle const* const particle) const
 {
    TF1 const* fMomResolution = NULL;
 
