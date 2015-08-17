@@ -23,28 +23,15 @@ StFastSimUtilities::StFastSimUtilities()
    mf1KaonMomResolution = (TF1*)f.Get("fKaon")->Clone("fKaonMomResolution");
    f.Close();
 
-   TFile fHftRatio(hftRatioFileName.c_str());
-   TFile fDca(dcaFileName.c_str());
    TFile fVertex(vertexFileName.c_str());
-
    for (int ii = 0; ii < nCent; ++ii)
    {
-      mh1HftRatio[ii] = (TH1D*)(fHftRatio.Get(Form("mh1HFTRatio1_%i", ii))->Clone(Form("mh1HFTRatio1_%i", ii)));
       mh1Vz[ii]      = (TH1D*)(fVertex.Get(Form("mh1Vz_%i", ii))->Clone(Form("mh1Vz_%i", ii)));
-
-      for (int jj = 0; jj < nPtBins; ++jj)
-      {
-         mh1DcaXY[ii][jj] = (TH1D*)((fDca.Get(Form("mh3DcaXy_Cent%i_Pt%i", ii, jj)))->Clone(Form("mh3DcaXy_Cent%i_Pt%i", ii, jj)));
-         mh1DcaZ[ii][jj]  = (TH1D*)((fDca.Get(Form("mh3DcaZ_Cent%i_Pt%i", ii, jj)))->Clone(Form("mh3DcaZ_Cent%i_Pt%i", ii, jj)));
-      }
    }
-
-   fHftRatio.Close();
-   fDca.Close();
    fVertex.Close();
 
-   TFile fHftRatio1(hftRatioFileName1.c_str());
-   TFile fDca1(dcaFileName1.c_str());
+   TFile fHftRatio(hftRatioFileName.c_str());
+   TFile fDca(dcaFileName.c_str());
 
    for (int iParticle = 0; iParticle < nParticles; ++iParticle)
    {
@@ -54,22 +41,22 @@ StFastSimUtilities::StFastSimUtilities()
          {
             for (int ii = 0; ii < nCent; ++ii)
             {
-               mh1HftRatio1[iParticle][iEta][iVz][ii] =
-                  (TH1D*)(fHftRatio1.Get(Form("mh1HFT1PtCentPartEtaVzRatio_%i_%i_%i_%i", iParticle, iEta, iVz, ii))->Clone(Form("mh1HFT1PtCentPartEtaVzRatio_%i_%i_%i_%i", iParticle, iEta, iVz, ii)));
+               mh1HftRatio[iParticle][iEta][iVz][ii] =
+                  (TH1D*)(fHftRatio.Get(Form("mh1HFT1PtCentPartEtaVzRatio_%i_%i_%i_%i", iParticle, iEta, iVz, ii))->Clone(Form("mh1HFT1PtCentPartEtaVzRatio_%i_%i_%i_%i", iParticle, iEta, iVz, ii)));
                for (int jj = 0; jj < nPtBins; ++jj)
                {
-                  mh1DcaXY1[iParticle][iEta][iVz][ii][jj] =
-                     (TH1D*)((fDca1.Get(Form("mh1DcaXyPtCentPartEtaVz_%i_%i_%i_%i_%i", iParticle, iEta, iVz, ii, jj)))->Clone(Form("mh1DcaXyPtCentPartEtaVz_%i_%i_%i_%i_%i", iParticle, iEta, iVz, ii, jj)));
-                  mh1DcaZ1[iParticle][iEta][iVz][ii][jj] =
-                     (TH1D*)((fDca1.Get(Form("mh1DcaZPtCentPartEtaVz_%i_%i_%i_%i_%i", iParticle, iEta, iVz, ii, jj)))->Clone(Form("mh1DcaZPtCentPartEtaVz_%i_%i_%i_%i_%i", iParticle, iEta, iVz, ii, jj)));
+                  mh1DcaXY[iParticle][iEta][iVz][ii][jj] =
+                     (TH1D*)((fDca.Get(Form("mh1DcaXyPtCentPartEtaVz_%i_%i_%i_%i_%i", iParticle, iEta, iVz, ii, jj)))->Clone(Form("mh1DcaXyPtCentPartEtaVz_%i_%i_%i_%i_%i", iParticle, iEta, iVz, ii, jj)));
+                  mh1DcaZ[iParticle][iEta][iVz][ii][jj] =
+                     (TH1D*)((fDca.Get(Form("mh1DcaZPtCentPartEtaVz_%i_%i_%i_%i_%i", iParticle, iEta, iVz, ii, jj)))->Clone(Form("mh1DcaZPtCentPartEtaVz_%i_%i_%i_%i_%i", iParticle, iEta, iVz, ii, jj)));
                }
             }
          }
       }
    }
 
-   fHftRatio1.Close();
-   fDca1.Close();
+   fHftRatio.Close();
+   fDca.Close();
 }
 
 StFastSimUtilities::~StFastSimUtilities()
@@ -86,11 +73,11 @@ TVector3 StFastSimUtilities::smearPosData(int const iParticleIndex, double const
    float sigmaPosZ = 0;
    float sigmaPosXY = 0;
 
-   if (mh1DcaZ1[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetEntries())
-      sigmaPosZ = mh1DcaZ1[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetRandom() * 1e4;
+   if (mh1DcaZ[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetEntries())
+      sigmaPosZ = mh1DcaZ[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetRandom() * 1e4;
 
-   if (mh1DcaXY1[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetEntries())
-      sigmaPosXY = mh1DcaXY1[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetRandom() * 1e4;
+   if (mh1DcaXY[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetEntries())
+      sigmaPosXY = mh1DcaXY[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetRandom() * 1e4;
 
    TVector3 newPos(pos);
    newPos.SetZ(0);
@@ -113,8 +100,8 @@ bool StFastSimUtilities::matchHft(int const iParticleIndex, double const vz, int
    int const iEtaIndex = getEtaIndex(mom.PseudoRapidity());
    int const iVzIndex = getVzIndex(vz);
    // int const iPhiIndex = getPhiIndex(mom.Phi());
-   int const bin = mh1HftRatio1[iParticleIndex][iEtaIndex][iVzIndex][cent]->FindBin(mom.Perp());
-   return gRandom->Rndm() < mh1HftRatio1[iParticleIndex][iEtaIndex][iVzIndex][cent]->GetBinContent(bin);
+   int const bin = mh1HftRatio[iParticleIndex][iEtaIndex][iVzIndex][cent]->FindBin(mom.Perp());
+   return gRandom->Rndm() < mh1HftRatio[iParticleIndex][iEtaIndex][iVzIndex][cent]->GetBinContent(bin);
 }
 
 float StFastSimUtilities::dca(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex) const

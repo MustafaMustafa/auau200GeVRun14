@@ -50,14 +50,9 @@ private:
    TF1* mf1KaonMomResolution = nullptr;
    TF1* mf1PionMomResolution = nullptr;
 
-   // pT and centrality dependent HFT and DCA distributions
-   TH1D* mh1HftRatio[nCent];
-   TH1D* mh1DcaZ[nCent][nPtBins];
-   TH1D* mh1DcaXY[nCent][nPtBins];
-
    // HFT and DCA distributions
-   TH1D* mh1HftRatio1[nParticles][nEtas][nVzs][nCent];
-   TH1D* mh1DcaZ1[nParticles][nEtas][nVzs][nCent][nPtBins];
-   TH1D* mh1DcaXY1[nParticles][nEtas][nVzs][nCent][nPtBins];
+   TH1D* mh1HftRatio[nParticles][nEtas][nVzs][nCent];
+   TH1D* mh1DcaZ[nParticles][nEtas][nVzs][nCent][nPtBins];
+   TH1D* mh1DcaXY[nParticles][nEtas][nVzs][nCent][nPtBins];
 };
 #endif
