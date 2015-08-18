@@ -64,6 +64,32 @@ StFastSimUtilities::~StFastSimUtilities()
    // needs to be filled
 }
 
+TLorentzVector StFastSimUtilities::smearPosData(TParticle const* const mcParticle,TVector3 const& vertex,int centrality) const
+{
+  int iParticleIndex = 0;
+
+  switch(abs(mcParticle->GetPdgCode()))
+   {
+     case 211:
+       iParticleIndex = 0;
+       break;
+     case 321:
+       iParticleIndex = 1;
+       break;
+     default:
+       cout << "There are no specific DCA resolution distributions available for PDG code = " << mcParticle->GetPdgCode() << "\n";
+       cout << "Using Pions DCA resolution" << endl;
+       iParticleIndex = 0;
+   }
+
+  TLorentzVector mom;
+  TVector3 pos;
+  mcParticle->Momentum(mom);
+  pos.SetXYZ(mcParticle->Vx(), mcParticle->Vy(), mcParticle->Vz());
+
+  return TLorentzVector(smearPosData(iParticleIndex,vertex.z(),centrality,mom,pos),mcParticle->T());
+}
+
 TVector3 StFastSimUtilities::smearPosData(int const iParticleIndex, double const vz, int const cent, TLorentzVector const& rMom, TVector3 const& pos) const
 {
    int const iEtaIndex = getEtaIndex(rMom.PseudoRapidity());
@@ -124,6 +150,14 @@ float StFastSimUtilities::dca1To2(TVector3 const& p1, TVector3 const& pos1, TVec
    TVector3 posDca2 = pos2 + pu2 * s2;
    v0 = 0.5 * (posDca1 + posDca2);
    return (posDca1 - posDca2).Mag();
+}
+
+TParticle StFastSimUtilities::smear(TParticle const* mcParticle,TVector3 const& vertex,int const centrality) const
+{
+  return TParticle(mcParticle->GetPdgCode(),mcParticle->GetStatusCode(),
+                   mcParticle->GetMother(0),mcParticle->GetMother(1),
+                   mcParticle->GetDaughter(0),mcParticle->GetDaughter(1),
+                   smearMom(mcParticle),smearPosData(mcParticle,vertex,centrality));
 }
 
 TLorentzVector StFastSimUtilities::smearMom(TParticle const* const particle) const

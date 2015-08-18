@@ -29,7 +29,10 @@ public:
    StFastSimUtilities();
    ~StFastSimUtilities();
 
+   TParticle smear(TParticle const* mcParticle,TVector3 const& vertex,int const centrality) const;
+   TLorentzVector smearPosData(TParticle const* mcParticle,TVector3 const& vertex,int centrality) const;
    TLorentzVector smearMom(TParticle const*) const;
+
    TVector3 smearPos(TLorentzVector const& mom, TLorentzVector const& rMom, TVector3 const& pos) const;
    TVector3 smearPosData(int iParticleIndex, double vz, int cent, TLorentzVector const& rMom, TVector3 const& pos) const;
    float dca(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex) const;
