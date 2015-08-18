@@ -100,10 +100,10 @@ TVector3 StFastSimUtilities::smearPosData(int const iParticleIndex, double const
    float sigmaPosXY = 0;
 
    if (mh1DcaZ[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetEntries())
-      sigmaPosZ = mh1DcaZ[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetRandom() * 1e4;
+      sigmaPosZ = mh1DcaZ[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetRandom();
 
    if (mh1DcaXY[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetEntries())
-      sigmaPosXY = mh1DcaXY[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetRandom() * 1e4;
+      sigmaPosXY = mh1DcaXY[iParticleIndex][iEtaIndex][iVzIndex][cent][iPtIndex]->GetRandom();
 
    TVector3 newPos(pos);
    newPos.SetZ(0);
@@ -117,7 +117,7 @@ TVector3 StFastSimUtilities::getVertex(int const centrality) const
 {
    double rdmVz;
    if (mh1Vz[centrality]->GetEntries() == 0) rdmVz = 0.;
-   else rdmVz = mh1Vz[centrality]->GetRandom() * 1e4;
+   else rdmVz = mh1Vz[centrality]->GetRandom();
    return TVector3(0., 0., rdmVz);
 }
 
@@ -190,7 +190,7 @@ TVector3 StFastSimUtilities::smearPos(TLorentzVector const& mom, TLorentzVector 
 {
    float thetaMCS = 13.6 / mom.Beta() / rMom.P() / 1000 * sqrt(pxlLayer1Thickness / fabs(sin(mom.Theta())));
    float sigmaMCS = thetaMCS * 28000 / fabs(sin(mom.Theta()));
-   float sigmaPos = sqrt(pow(sigmaMCS, 2) + pow(sigmaPos0, 2));
+   float sigmaPos = sqrt(pow(sigmaMCS, 2) + pow(sigmaPos0, 2)) / 1.e4;
 
    return TVector3(gRandom->Gaus(pos.X(), sigmaPos), gRandom->Gaus(pos.Y(), sigmaPos), gRandom->Gaus(pos.Z(), sigmaPos));
 }
