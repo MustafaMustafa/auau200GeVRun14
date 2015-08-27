@@ -27,7 +27,7 @@ class StFastSimUtilities
 {
 public:
    StFastSimUtilities();
-   ~StFastSimUtilities();
+   virtual ~StFastSimUtilities();
 
    TParticle smear(TParticle const* mcParticle,TVector3 const& vertex,int const centrality) const;
    TLorentzVector smearPos(TParticle const* mcParticle,TVector3 const& vertex,int centrality) const;
