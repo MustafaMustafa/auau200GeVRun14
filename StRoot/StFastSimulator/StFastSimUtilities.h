@@ -27,14 +27,13 @@ class StFastSimUtilities
 {
 public:
    StFastSimUtilities();
-   ~StFastSimUtilities();
+   virtual ~StFastSimUtilities();
 
    TParticle smear(TParticle const* mcParticle,TVector3 const& vertex,int const centrality) const;
-   TLorentzVector smearPosData(TParticle const* mcParticle,TVector3 const& vertex,int centrality) const;
+   TLorentzVector smearPos(TParticle const* mcParticle,TVector3 const& vertex,int centrality) const;
    TLorentzVector smearMom(TParticle const*) const;
 
-   TVector3 smearPos(TLorentzVector const& mom, TLorentzVector const& rMom, TVector3 const& pos) const;
-   TVector3 smearPosData(int iParticleIndex, double vz, int cent, TLorentzVector const& rMom, TVector3 const& pos) const;
+   TVector3 smearPos(int iParticleIndex, double vz, int cent, TLorentzVector const& rMom, TVector3 const& pos) const;
    float dca(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex) const;
    float dca1To2(TVector3 const& p1, TVector3 const& pos1, TVector3 const& p2, TVector3 const& pos2, TVector3& v0) const;
    TVector3 getVertex(int centrality) const;
