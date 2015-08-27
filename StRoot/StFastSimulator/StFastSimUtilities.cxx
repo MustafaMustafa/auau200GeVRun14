@@ -64,7 +64,7 @@ StFastSimUtilities::~StFastSimUtilities()
    // needs to be filled
 }
 
-TLorentzVector StFastSimUtilities::smearPosData(TParticle const* const mcParticle,TVector3 const& vertex,int centrality) const
+TLorentzVector StFastSimUtilities::smearPos(TParticle const* const mcParticle,TVector3 const& vertex,int centrality) const
 {
   int iParticleIndex = 0;
 
@@ -87,10 +87,10 @@ TLorentzVector StFastSimUtilities::smearPosData(TParticle const* const mcParticl
   mcParticle->Momentum(mom);
   pos.SetXYZ(mcParticle->Vx(), mcParticle->Vy(), mcParticle->Vz());
 
-  return TLorentzVector(smearPosData(iParticleIndex,vertex.z(),centrality,mom,pos),mcParticle->T());
+  return TLorentzVector(smearPos(iParticleIndex,vertex.z(),centrality,mom,pos),mcParticle->T());
 }
 
-TVector3 StFastSimUtilities::smearPosData(int const iParticleIndex, double const vz, int const cent, TLorentzVector const& rMom, TVector3 const& pos) const
+TVector3 StFastSimUtilities::smearPos(int const iParticleIndex, double const vz, int const cent, TLorentzVector const& rMom, TVector3 const& pos) const
 {
    int const iEtaIndex = getEtaIndex(rMom.PseudoRapidity());
    int const iVzIndex = getVzIndex(vz);
@@ -157,7 +157,7 @@ TParticle StFastSimUtilities::smear(TParticle const* mcParticle,TVector3 const& 
   return TParticle(mcParticle->GetPdgCode(),mcParticle->GetStatusCode(),
                    mcParticle->GetMother(0),mcParticle->GetMother(1),
                    mcParticle->GetDaughter(0),mcParticle->GetDaughter(1),
-                   smearMom(mcParticle),smearPosData(mcParticle,vertex,centrality));
+                   smearMom(mcParticle),smearPos(mcParticle,vertex,centrality));
 }
 
 TLorentzVector StFastSimUtilities::smearMom(TParticle const* const particle) const
@@ -184,15 +184,6 @@ TLorentzVector StFastSimUtilities::smearMom(TParticle const* const particle) con
    TLorentzVector sMom;
    sMom.SetPtEtaPhiM(sPt,particle->Eta(),particle->Phi(),particle->GetMass());
    return sMom;
-}
-
-TVector3 StFastSimUtilities::smearPos(TLorentzVector const& mom, TLorentzVector const& rMom, TVector3 const& pos) const
-{
-   float thetaMCS = 13.6 / mom.Beta() / rMom.P() / 1000 * sqrt(pxlLayer1Thickness / fabs(sin(mom.Theta())));
-   float sigmaMCS = thetaMCS * 28000 / fabs(sin(mom.Theta()));
-   float sigmaPos = sqrt(pow(sigmaMCS, 2) + pow(sigmaPos0, 2)) / 1.e4;
-
-   return TVector3(gRandom->Gaus(pos.X(), sigmaPos), gRandom->Gaus(pos.Y(), sigmaPos), gRandom->Gaus(pos.Z(), sigmaPos));
 }
 
 int StFastSimUtilities::getPtIndex(double const pT) const

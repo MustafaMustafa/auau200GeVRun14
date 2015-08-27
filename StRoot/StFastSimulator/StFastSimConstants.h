@@ -44,9 +44,5 @@ namespace FastSimUtilitiesConstants
    double const ptEdge[nPtBins + 1]= { 0.0, 0.2, 0.4,  0.6,  0.8, 1.0, 1.2, 1.4,  1.6,  1.8, 2.0, 2.2,
                                         2.4,  2.6,  2.8, 3.0, 3.2, 3.4,  3.6,  3.8, 4.0, 4.2, 4.4,  4.6,
                                         4.8, 5.0, 5.4, 5.8,  6.2,  6.6, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0};
-
-   // for smearPos method
-   float const sigmaPos0 = 15.2;
-   float const pxlLayer1Thickness = 0.00486;
 }
 #endif
