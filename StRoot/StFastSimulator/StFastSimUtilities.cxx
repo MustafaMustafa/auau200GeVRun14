@@ -64,35 +64,35 @@ StFastSimUtilities::~StFastSimUtilities()
    // needs to be filled
 }
 
-TLorentzVector StFastSimUtilities::smearPos(TParticle const* const mcParticle,TVector3 const& vertex,int centrality) const
+TLorentzVector StFastSimUtilities::smearPos(TParticle const* const mcParticle, TVector3 const& vertex, int centrality) const
 {
-  int iParticleIndex = 0;
+   int iParticleIndex = 0;
 
-  static bool printedWarning = false;
-  switch(abs(mcParticle->GetPdgCode()))
+   static bool printedWarning = false;
+   switch (abs(mcParticle->GetPdgCode()))
    {
-     case 211:
-       iParticleIndex = 0;
-       break;
-     case 321:
-       iParticleIndex = 1;
-       break;
-     default:
-       if(!printedWarning)
-       {
-         cout << "StFastSimUtilities::smearPos(): There are no specific DCA resolution distributions available for PDG code = " << mcParticle->GetPdgCode() << "\n";
-         cout << "StFastSimUtilities::smearPos(): Using Pions DCA resolution" << endl;
-         printedWarning = true;
-       }
-       iParticleIndex = 0;
+      case 211:
+         iParticleIndex = 0;
+         break;
+      case 321:
+         iParticleIndex = 1;
+         break;
+      default:
+         if (!printedWarning)
+         {
+            cout << "StFastSimUtilities::smearPos(): There are no specific DCA resolution distributions available for PDG code = " << mcParticle->GetPdgCode() << "\n";
+            cout << "StFastSimUtilities::smearPos(): Using Pions DCA resolution" << endl;
+            printedWarning = true;
+         }
+         iParticleIndex = 0;
    }
 
-  TLorentzVector mom;
-  TVector3 pos;
-  mcParticle->Momentum(mom);
-  pos.SetXYZ(mcParticle->Vx(), mcParticle->Vy(), mcParticle->Vz());
+   TLorentzVector mom;
+   TVector3 pos;
+   mcParticle->Momentum(mom);
+   pos.SetXYZ(mcParticle->Vx(), mcParticle->Vy(), mcParticle->Vz());
 
-  return TLorentzVector(smearPos(iParticleIndex,vertex.z(),centrality,mom,pos),mcParticle->T());
+   return TLorentzVector(smearPos(iParticleIndex, vertex.z(), centrality, mom, pos), mcParticle->T());
 }
 
 TVector3 StFastSimUtilities::smearPos(int const iParticleIndex, double const vz, int const cent, TLorentzVector const& rMom, TVector3 const& pos) const
@@ -157,12 +157,12 @@ float StFastSimUtilities::dca1To2(TVector3 const& p1, TVector3 const& pos1, TVec
    return (posDca1 - posDca2).Mag();
 }
 
-TParticle StFastSimUtilities::smear(TParticle const* mcParticle,TVector3 const& vertex,int const centrality) const
+TParticle StFastSimUtilities::smear(TParticle const* mcParticle, TVector3 const& vertex, int const centrality) const
 {
-  return TParticle(mcParticle->GetPdgCode(),mcParticle->GetStatusCode(),
-                   mcParticle->GetMother(0),mcParticle->GetMother(1),
-                   mcParticle->GetDaughter(0),mcParticle->GetDaughter(1),
-                   smearMom(mcParticle),smearPos(mcParticle,vertex,centrality));
+   return TParticle(mcParticle->GetPdgCode(), mcParticle->GetStatusCode(),
+                    mcParticle->GetMother(0), mcParticle->GetMother(1),
+                    mcParticle->GetDaughter(0), mcParticle->GetDaughter(1),
+                    smearMom(mcParticle), smearPos(mcParticle, vertex, centrality));
 }
 
 TLorentzVector StFastSimUtilities::smearMom(TParticle const* const particle) const
@@ -171,29 +171,29 @@ TLorentzVector StFastSimUtilities::smearMom(TParticle const* const particle) con
 
    static bool printedWarning = false;
 
-   switch(abs(particle->GetPdgCode()))
+   switch (abs(particle->GetPdgCode()))
    {
-     case 211:
-       fMomResolution = mf1PionMomResolution;
-       break;
-     case 321:
-       fMomResolution = mf1KaonMomResolution;
-       break;
-     default:
-       if(!printedWarning)
-       {
-         cout << "StFastSimUtilities::smearMom(): There is no specific momentum resolution parametrization available for PDG code = " << particle->GetPdgCode() << "\n";
-         cout << "StFastSimUtilities::smearMom(): Using Pions momentum resolution" << endl;
-         printedWarning = true;
-       }
-       fMomResolution = mf1PionMomResolution;
+      case 211:
+         fMomResolution = mf1PionMomResolution;
+         break;
+      case 321:
+         fMomResolution = mf1KaonMomResolution;
+         break;
+      default:
+         if (!printedWarning)
+         {
+            cout << "StFastSimUtilities::smearMom(): There is no specific momentum resolution parametrization available for PDG code = " << particle->GetPdgCode() << "\n";
+            cout << "StFastSimUtilities::smearMom(): Using Pions momentum resolution" << endl;
+            printedWarning = true;
+         }
+         fMomResolution = mf1PionMomResolution;
    }
 
    float const pt = particle->Pt();
    float const sPt = gRandom->Gaus(pt, pt * fMomResolution->Eval(pt));
 
    TLorentzVector sMom;
-   sMom.SetPtEtaPhiM(sPt,particle->Eta(),particle->Phi(),particle->GetMass());
+   sMom.SetPtEtaPhiM(sPt, particle->Eta(), particle->Phi(), particle->GetMass());
    return sMom;
 }
 

@@ -29,8 +29,8 @@ public:
    StFastSimUtilities();
    virtual ~StFastSimUtilities();
 
-   TParticle smear(TParticle const* mcParticle,TVector3 const& vertex,int const centrality) const;
-   TLorentzVector smearPos(TParticle const* mcParticle,TVector3 const& vertex,int centrality) const;
+   TParticle smear(TParticle const* mcParticle, TVector3 const& vertex, int const centrality) const;
+   TLorentzVector smearPos(TParticle const* mcParticle, TVector3 const& vertex, int centrality) const;
    TLorentzVector smearMom(TParticle const*) const;
 
    TVector3 smearPos(int iParticleIndex, double vz, int cent, TLorentzVector const& rMom, TVector3 const& pos) const;
@@ -57,6 +57,6 @@ private:
    TH1D* mh1DcaZ[nParticles][nEtas][nVzs][nCent][nPtBins];
    TH1D* mh1DcaXY[nParticles][nEtas][nVzs][nCent][nPtBins];
 
-   ClassDef(StFastSimUtilities,0);
+   ClassDef(StFastSimUtilities, 0);
 };
 #endif
