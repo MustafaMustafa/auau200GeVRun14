@@ -68,6 +68,7 @@ TLorentzVector StFastSimUtilities::smearPos(TParticle const* const mcParticle,TV
 {
   int iParticleIndex = 0;
 
+  static bool printedWarning = false;
   switch(abs(mcParticle->GetPdgCode()))
    {
      case 211:
@@ -77,8 +78,12 @@ TLorentzVector StFastSimUtilities::smearPos(TParticle const* const mcParticle,TV
        iParticleIndex = 1;
        break;
      default:
-       cout << "There are no specific DCA resolution distributions available for PDG code = " << mcParticle->GetPdgCode() << "\n";
-       cout << "Using Pions DCA resolution" << endl;
+       if(!printedWarning)
+       {
+         cout << "StFastSimUtilities::smearPos(): There are no specific DCA resolution distributions available for PDG code = " << mcParticle->GetPdgCode() << "\n";
+         cout << "StFastSimUtilities::smearPos(): Using Pions DCA resolution" << endl;
+         printedWarning = true;
+       }
        iParticleIndex = 0;
    }
 
@@ -164,6 +169,8 @@ TLorentzVector StFastSimUtilities::smearMom(TParticle const* const particle) con
 {
    TF1 const* fMomResolution = NULL;
 
+   static bool printedWarning = false;
+
    switch(abs(particle->GetPdgCode()))
    {
      case 211:
@@ -173,8 +180,12 @@ TLorentzVector StFastSimUtilities::smearMom(TParticle const* const particle) con
        fMomResolution = mf1KaonMomResolution;
        break;
      default:
-       cout << "There is no specific momentum resolution parametrization available for PDG code = " << particle->GetPdgCode() << "\n";
-       cout << "Using Pions momentum resolution" << endl;
+       if(!printedWarning)
+       {
+         cout << "StFastSimUtilities::smearMom(): There is no specific momentum resolution parametrization available for PDG code = " << particle->GetPdgCode() << "\n";
+         cout << "StFastSimUtilities::smearMom(): Using Pions momentum resolution" << endl;
+         printedWarning = true;
+       }
        fMomResolution = mf1PionMomResolution;
    }
 
