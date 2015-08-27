@@ -3,7 +3,6 @@
 #include "TF1.h"
 #include "TFile.h"
 #include "TRandom3.h"
-#include "TParticle.h"
 
 #include "StFastSimConstants.h"
 #include "StFastSimUtilities.h"

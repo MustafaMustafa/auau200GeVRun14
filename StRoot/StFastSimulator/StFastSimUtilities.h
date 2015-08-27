@@ -15,6 +15,7 @@
 
 #include "TVector3.h"
 #include "TLorentzVector.h"
+#include "TParticle.h"
 #include "StFastSimConstants.h"
 
 class TF1;
@@ -57,6 +58,6 @@ private:
    TH1D* mh1DcaZ[nParticles][nEtas][nVzs][nCent][nPtBins];
    TH1D* mh1DcaXY[nParticles][nEtas][nVzs][nCent][nPtBins];
 
-   ClassDef(StFastSimUtilities, 0);
+   // ClassDef(StFastSimUtilities, 0);
 };
 #endif
