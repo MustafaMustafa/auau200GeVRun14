@@ -228,7 +228,7 @@ int StFastSimUtilities::getVzIndex(double const Vz) const
 
 int StFastSimUtilities::getPhiIndex(double const Phi) const
 {
-   for (int i = 0; i < nPtBins; i++)
+   for (int i = 0; i < nPhis; i++)
    {
       if ((Phi >= PhiEdge[i]) && (Phi < PhiEdge[i + 1]))
          return i;
