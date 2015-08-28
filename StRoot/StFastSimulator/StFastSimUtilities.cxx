@@ -208,30 +208,27 @@ int StFastSimUtilities::getPtIndex(double const pT) const
 
 int StFastSimUtilities::getEtaIndex(double const Eta) const
 {
-   for (int i = 0; i < nEtas; i++)
-   {
-      if ((Eta >= EtaEdge[i]) && (Eta < EtaEdge[i + 1]))
-         return i;
-   }
-   return nEtas - 1 ;
+  if( std::abs(Eta) > 1.0 )
+    return -1;
+  if( Eta == EtaEdge[nEtas])
+    return nEtas-1;
+  return floor( (Eta+1.0)/0.2 );
 }
 
 int StFastSimUtilities::getVzIndex(double const Vz) const
 {
-   for (int i = 0; i < nVzs; i++)
-   {
-      if ((Vz >= VzEdge[i]) && (Vz < VzEdge[i + 1]))
-         return i;
-   }
-   return nVzs - 1 ;
+  if( std::abs(Vz) > 6.0)
+    return -1;
+  if( Vz == VzEdge[nVzs] )
+    return nVzs-1;
+  return floor( (Vz+6.0)/vzStep );
 }
 
 int StFastSimUtilities::getPhiIndex(double const Phi) const
 {
-   for (int i = 0; i < nPtBins; i++)
-   {
-      if ((Phi >= PhiEdge[i]) && (Phi < PhiEdge[i + 1]))
-         return i;
-   }
-   return nPhis - 1 ;
+  if( std::abs(Phi) > M_PI )
+    return -1;
+  if( Phi == PhiEdge[nPhis] )
+    return nPhis-1;
+  return floor( (Phi+M_PI)/phiStep );
 }
