@@ -33,7 +33,7 @@ StKaonPion::StKaonPion(StKaonPion const * t) : mLorentzVector(t->mLorentzVector)
 //------------------------------------
 StKaonPion::StKaonPion(StPicoTrack const * const kaon, StPicoTrack const * const pion,
                        unsigned short const kIdx, unsigned short const pIdx,
-                       StThreeVectorF const & vtx, float const bField) : mLorentzVector(),
+                       StThreeVectorF const & vtx, float const bField, bool helixSwimming) : mLorentzVector(),
    mPointingAngle(std::numeric_limits<float>::quiet_NaN()), mDecayLength(std::numeric_limits<float>::quiet_NaN()),
    mKaonDca(std::numeric_limits<float>::quiet_NaN()), mPionDca(std::numeric_limits<float>::quiet_NaN()),
    mKaonIdx(kIdx), mPionIdx(pIdx),
@@ -66,9 +66,9 @@ StKaonPion::StKaonPion(StPicoTrack const * const kaon, StPicoTrack const * const
    StPhysicalHelixD const kStraightLine(kMom, kHelix.origin(), 0, kaon->charge());
    StPhysicalHelixD const pStraightLine(pMom, pHelix.origin(), 0, pion->charge());
 
-   pair<double, double> const ss = kStraightLine.pathLengths(pStraightLine);
-   StThreeVectorF const kAtDcaToPion = kStraightLine.at(ss.first);
-   StThreeVectorF const pAtDcaToKaon = pStraightLine.at(ss.second);
+   pair<double, double> const ss = helixSwimming? kHelix.pathLength(pHelix): kStraightLine.pathLengths(pStraightLine);
+   StThreeVectorF const kAtDcaToPion = helixSwimming? kHelix.at(ss.first) : kStraightLine.at(ss.first);
+   StThreeVectorF const pAtDcaToKaon = helixSwimming? pHelix.at(ss.second) : pStraightLine.at(ss.second);
 
    // calculate DCA of pion to kaon at their DCA
    mDcaDaughters = (kAtDcaToPion - pAtDcaToKaon).mag();
