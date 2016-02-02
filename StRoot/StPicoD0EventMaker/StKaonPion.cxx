@@ -66,7 +66,7 @@ StKaonPion::StKaonPion(StPicoTrack const * const kaon, StPicoTrack const * const
    StPhysicalHelixD const kStraightLine(kMom, kHelix.origin(), 0, kaon->charge());
    StPhysicalHelixD const pStraightLine(pMom, pHelix.origin(), 0, pion->charge());
 
-   pair<double, double> const ss = helixSwimming? kHelix.pathLength(pHelix): kStraightLine.pathLengths(pStraightLine);
+   pair<double, double> const ss = helixSwimming? kHelix.pathLengths(pHelix): kStraightLine.pathLengths(pStraightLine);
    StThreeVectorF const kAtDcaToPion = helixSwimming? kHelix.at(ss.first) : kStraightLine.at(ss.first);
    StThreeVectorF const pAtDcaToKaon = helixSwimming? pHelix.at(ss.second) : pStraightLine.at(ss.second);
 
