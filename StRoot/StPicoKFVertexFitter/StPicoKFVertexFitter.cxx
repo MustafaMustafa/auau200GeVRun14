@@ -12,10 +12,10 @@
 using namespace std;
 
 StThreeVectorF StPicoKFVertexFitter::primaryVertexRefit(StPicoDst const* const picoDst,
-    std::vector<int>& tracksToRemove) const
+      std::vector<int>& tracksToRemove) const
 {
    // just in case it is not sorted
-   std::sort(tracksToRemove.begin(),tracksToRemove.end());
+   std::sort(tracksToRemove.begin(), tracksToRemove.end());
 
    vector<int> goodTracks;
 
@@ -25,19 +25,19 @@ StThreeVectorF StPicoKFVertexFitter::primaryVertexRefit(StPicoDst const* const p
       StPicoTrack* gTrack = (StPicoTrack*)picoDst->track(iTrk);
       if (! gTrack) continue;
 
-      if(std::binary_search(tracksToRemove.begin(), tracksToRemove.end(), iTrk)) continue;
+      if (std::binary_search(tracksToRemove.begin(), tracksToRemove.end(), iTrk)) continue;
 
       goodTracks.push_back(iTrk);
    }
 
-   return primaryVertexRefitUsingTracks(picoDst,goodTracks);
+   return primaryVertexRefitUsingTracks(picoDst, goodTracks);
 }
 
 StThreeVectorF StPicoKFVertexFitter::primaryVertexRefitUsingTracks(StPicoDst const* const picoDst,
-    std::vector<int>& tracksToUse) const
+      std::vector<int>& tracksToUse) const
 {
-  // fill an array of KFParticles
-  KFParticle* particles[tracksToUse.size()];
+   // fill an array of KFParticles
+   KFParticle* particles[tracksToUse.size()];
 
    for (size_t iTrk = 0; iTrk < tracksToUse.size(); ++iTrk)
    {
@@ -64,15 +64,14 @@ StThreeVectorF StPicoKFVertexFitter::primaryVertexRefitUsingTracks(StPicoDst con
                                   (Bool_t*) Flag.GetArray(), TMath::Sqrt(StAnneling::Chi2Cut() / 2));
 
    // clean up
-   for(size_t iTrk = 0; iTrk < tracksToUse.size(); ++iTrk) delete particles[iTrk];
+   for (size_t iTrk = 0; iTrk < tracksToUse.size(); ++iTrk) delete particles[iTrk];
 
-   StThreeVectorF kfVertex(-999.,-999.,-999.);
+   StThreeVectorF kfVertex(-999., -999., -999.);
 
    if (aVertex.GetX())
    {
-     kfVertex.set(aVertex.GetX(), aVertex.GetY(), aVertex.GetZ());
+      kfVertex.set(aVertex.GetX(), aVertex.GetY(), aVertex.GetZ());
    }
 
    return kfVertex;
-
 }
