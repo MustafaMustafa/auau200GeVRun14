@@ -54,8 +54,8 @@ void drawQaHistograms(string filename)
   TH2F* h2KaonDcaVsPt              = (TH2F*)fInput->Get("mh2KaonDcaVsPt");
   TH2F* h2PionDcaVsPt              = (TH2F*)fInput->Get("mh2PionDcaVsPt");
   TH2F* h2CosThetaVsPt             = (TH2F*)fInput->Get("mh2CosThetaVsPt");
-  TH2F* h2DcaDaughtersVsPt             = (TH2F*)fInput->Get("mh2DcaDaughtersVsPt");
-  TH2F* h2InvariantMassVsPt        = (TH2F*)fInput->Get("mh2InvariantMassVsPt");
+  TH2F* h2DcaDaughtersVsPt         = (TH2F*)fInput->Get("mh2DcaDaughtersVsPt");
+  TH2F* h2InvariantMassVsPt        = (TH2F*)fInput->Get("mh2InvariantMassVsPtUnlike");
 
   h1AverageHftTracksInRun->Divide(h1TotalEventsInRun);
   h1AverageGRefMultInRun->Divide(h1TotalEventsInRun);
