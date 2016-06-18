@@ -158,7 +158,7 @@ Int_t StPicoCharmMaker::Make()
           // make Kπ pairs
           StKaonPion kaonPion(*kaon0, *pion0, idxPicoKaons[iK0], idxPicoPions[iPi0], pVtx, bField);
 
-          if (mMakeD0 && isGoodD0Pair(kaonPion))
+          if (mMakeD0)
           {
             if(isGoodD0Mass(kaonPion)) mPicoD0Event->addKaonPion(kaonPion);
 
@@ -276,7 +276,6 @@ bool StPicoCharmMaker::isGoodTrack(StPicoTrack const& trk, StThreeVectorF const&
 {
    return (!charmMakerCuts::requireHFT || trk.isHFTTrack()) &&
           trk.gPt()      >= charmMakerCuts::minPt  &&
-          fabs(trk.dca(pVtx))  >  charmMakerCuts::minDca &&
           trk.nHitsFit() >= charmMakerCuts::nHitsFit &&
           fabs(trk.gMom(pVtx, mPicoEvent->bField()).pseudoRapidity()) <= charmMakerCuts::eta;
 }
